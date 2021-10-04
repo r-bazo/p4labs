@@ -32,12 +32,13 @@ Presentation slides are available [online](https://courses.sidnlabs.nl/anet-2021
         
 ## Obtaining required software
 
-You can use the following VM: [P4 Ubuntu 20.04]()
+You can use the following VM: [P4 Ubuntu 20.04](https://drive.google.com/file/d/1qYytnHDapIcB1OvZA37D5xCWI_KN5ecW/view?usp=sharing)
 
 Use the VM as follows:
 1. Make sure you have [VirtualBox](https://www.virtualbox.org/) installed.
 2. Download the VM from the link.
 3. Within VirtualBox: File>Import Appliance
 4. Follow the steps
+5. This repository is already cloned in the VM under `~/Documents/`
 
 The account is `p4` and the password is `p4`.
