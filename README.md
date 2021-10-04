@@ -22,7 +22,7 @@ The description of each assignment is in it's respective folder.
 3. Assignment 3: Firewall
 * [Firewall](./assignments/firewall)
 
-4. Week 4: Source Routing and Quality of Service
+4. Assignment 4: Source Routing and Quality of Service
 * [QoS](./assignments/qos)
 * [Source Routing](./assignments/source_routing)
 
