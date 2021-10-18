@@ -157,6 +157,50 @@ control MyIngress(inout headers hdr,
     
     apply {
         ipv4_lpm.apply();
+        /*
+        ---Apply firewall logic here---
+
+        1- Check if the tcp packet is valid, and set a default direction value (e.g., direction = 0)
+
+        2- Firewalls only apply actions to packets **IF** the TCP ports of the packet are defined to be filtered. These ports are defined in the check_ports table. You can verify if the ports of the packet should be filtered by using "if(check_ports.apply().hit)".
+
+        3- Before dropping or forwarding the packet, the firewall must check and set the values of the respective data structure (in this case bloom_filter_1 and bloom_filter_2) for deciding the action it must take:
+            3.1- Calculate the hash for that communication flow with "compute_hashes".
+                3.1.1- The hash is an entry to our table filters (bloom_filters_1 and bloom_filters_2).
+                3.1.2- The hash is the same for all ongoing open communications, as hashes are deterministic and if you use the same parameters, they will always yield the same value. In our case we use the source address, destination address, source port and destination port as parameters to compute the hash. Don't forget to swap the parameters position according to the direction of the flow with "compute_hashes".
+                3.1.3- The "compute_hashes" consumes this data and digests it into a hash saved in "reg_pos_1" and "reg_pos_2". The hashes saved in this registers are then used for writting or reading from "bloom_filters_1" and "bloom_filters_2".
+
+            3.2- Accept or drop the packets by analyzing the filters based on the direction of the flow.
+                3.2.1- For applying, you don't have to invoke any command. For dropping you invoke the "drop()" function.
+                3.2.2- Don't forget that the bloom filters start off empty, so you have to write into them. Write a 1 to the filters (e.g., "bloom_filter_1(reg_pos_one, 1)").
+                3.2.3- All outbound packets are allowed and some inbound packets are blocked. You have to allow inbound packets from existing connections. You have to set the values on the bloom filters for new outbound connections, you can check if it's the start of a new connection by checking "hdr.tcp.syn == 1". With the values set on the filters, you can manage allowed and blocked inbound packets correctly.
+                3.2.4- Use the "reg_val_one" and "reg_val_two" to read from the bloom_filters. (e.g. bloom_filters_1.read(reg_val_one, hash); bloom_filters_2.read(read_val_two,hash);)
+                3.2.5- If BOTH "reg_val_one" and "reg_val_two" values are set. The packet is allowed, otherwise it is dropped.
+
+
+        Here is a PSEUDOCODE of a possible solution.
+        
+        if(tcp_is_valid(packet)):
+            if(packet_ports_must_be_filtered(packet)):
+                packet_flow = direction
+                //first i need the hashes to query my filter tables
+                if(is_outbound(packet_flow)):
+                    compute_hashes(src, dst, srcport, dstport)
+                else:
+                    compute_hashes(dst, src, dstport, srcport)
+                //now that i have the hashes, i can query and take action
+                if(is_outbound(packet_flow)):
+                    //its an inbound connection, so i allow everything and must be able to receive the responses
+                    //to receive the responses i have to write to the filters, because otherwise it will be blocked
+                    if(is_new_connection(hdr.tcp.syn)):
+                        write_to_filters(reg_pos_one, reg_pos_two, 1)
+                else:
+                    //its an outbound connection, so i block everything
+                    //unless both entries to the filters are set as 1
+                    read_from_filters(read_val_one, reg_pos_one, read_val_two, reg_pos_two)
+                    if((read_val_one AND read_val_two) != 1):
+                        drop()
+        */
     }
 }
 

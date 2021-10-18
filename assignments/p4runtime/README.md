@@ -53,7 +53,7 @@ based on the tunnel ID.
   1. Set the valid bit on the `myTunnel` packet header.
   2. Set the `dst_id`, `proto_id` and `etherType` of the tunnel header.
   3. Increment the `ingressTunnelCounter` of the `dst_id` tunnel header index. Cast the index type to `bit<32>`.
-5. On egress, implement an action called `myTunnel_egress`, the action must receive two parameters in the following order: first a parameter called `dst_Addr` with our mac address type defined on the code, second a parameter called `port`  with our egress type also defined on the code. The action must do the following:
+5. On ingress, implement an action called `myTunnel_egress`, the action must receive two parameters in the following order: first a parameter called `dst_Addr` with our mac address type defined on the code, second a parameter called `port`  with our egress type also defined on the code. The action must do the following:
   1. Set the value of `egress_spec` attribute of the `standard_metadata` to `port`.
   2. Set the `dstAddr` and `etherType` of the ethernet header to `dstAddr` and the tunnel's `proto_id`, respectively.
   3. Set the invalid bit on the `myTunnel` packet header.

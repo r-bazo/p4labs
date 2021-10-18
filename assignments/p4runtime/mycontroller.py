@@ -157,8 +157,6 @@ def main(p4info_file_path, bmv2_file_path):
 
     except KeyboardInterrupt:
         print(" Shutting down.")
-    except grpc.RpcError as e:
-        printGrpcError(e)
 
     ShutdownAllSwitchConnections()
 
