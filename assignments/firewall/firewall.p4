@@ -198,7 +198,7 @@ control MyIngress(inout headers hdr,
                     //its an outbound connection, so i block everything
                     //unless both entries to the filters are set as 1
                     read_from_filters(read_val_one, reg_pos_one, read_val_two, reg_pos_two)
-                    if((read_val_one AND read_val_two) != 1):
+                    if((read_val_one OR read_val_two) != 1):
                         drop()
         */
     }
