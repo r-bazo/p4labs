@@ -32,7 +32,7 @@ Presentation slides are available [online](https://courses.sidnlabs.nl/anet-2021
         
 ## Obtaining required software
 
-You can use the following VM: [P4 Ubuntu 20.04](https://drive.google.com/file/d/1qYytnHDapIcB1OvZA37D5xCWI_KN5ecW/view?usp=sharing)
+You can use the following VM: [P4 Ubuntu 20.04](https://drive.google.com/file/d/1hJTbheixc8Bg1Eu97dysWg74U3EGjvDN/view?usp=sharing)
 
 Use the VM as follows:
 1. Make sure you have [VirtualBox](https://www.virtualbox.org/) installed.
